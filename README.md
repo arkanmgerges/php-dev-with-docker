@@ -1,4 +1,4 @@
-# php-dev-with-docker
+# Php Development with Docker
 ### Introduction
 If you want to start developing with php, and you need some servers to be running quickly, then this repo can help you to start having the following:
 
