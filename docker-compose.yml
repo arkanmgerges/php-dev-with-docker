@@ -2,20 +2,15 @@ version: '2'
 services:
     data:
       image: cogniteev/echo
+      # This is the path to your project files (..), will map to /var/app in the container
       volumes:
         - ..:/var/app
 
     php-cli:
       image: arkanmgerges/php-cli:1.0
-      build:
-        context: .
-        dockerfile: config/php-cli/Dockerfile
 
     php-ssh:
       image: arkanmgerges/php-ssh:1.0
-      build:
-        context: .
-        dockerfile: config/php-ssh/Dockerfile
       ports:
         - "1122:22"
       volumes_from:
@@ -23,12 +18,10 @@ services:
 
     php-fpm:
       image: arkanmgerges/php-fpm:1.0
-      build:
-        context: .
-        dockerfile: config/php-fpm/Dockerfile
       working_dir: /var/app
       volumes_from:
         - data
+      # This is where you can collect xdebug profiling data (set your path), this will map to the /tmp in the container
       volumes:
         - ../.tmp:/tmp
       networks:
@@ -55,9 +48,6 @@ services:
 
     elasticsearch:
       container_name: es01
-      build:
-        context: .
-        dockerfile: config/elasticsearch/Dockerfile
       image: arkanmgerges/elasticsearch:1.0
       ports:
         - "9200:9200"
