@@ -1,0 +1,69 @@
+version: '2'
+services:
+    data:
+      image: cogniteev/echo
+      volumes:
+        - ..:/var/app
+
+    php-cli:
+      image: arkanmgerges/php-cli:1.0
+      build:
+        context: .
+        dockerfile: config/php-cli/Dockerfile
+
+    php-ssh:
+      image: arkanmgerges/php-ssh:1.0
+      build:
+        context: .
+        dockerfile: config/php-ssh/Dockerfile
+      ports:
+        - "1122:22"
+      volumes_from:
+        - data
+
+    php-fpm:
+      image: arkanmgerges/php-fpm:1.0
+      build:
+        context: .
+        dockerfile: config/php-fpm/Dockerfile
+      working_dir: /var/app
+      volumes_from:
+        - data
+      volumes:
+        - ../.tmp:/tmp
+      networks:
+        - net01
+
+    web-nginx:
+      image: nginx:latest
+      depends_on:
+        - php-fpm
+      ports:
+        - "8080:80"
+      volumes_from:
+        - data
+      volumes:
+        - ./config/nginx/site.conf:/etc/nginx/conf.d/site.conf
+      networks:
+        - net01
+
+    redis:
+      container_name: redis01
+      image: redis:3.0.7
+      ports:
+        - "6379:6379"
+
+    elasticsearch:
+      container_name: es01
+      build:
+        context: .
+        dockerfile: config/elasticsearch/Dockerfile
+      image: arkanmgerges/elasticsearch:1.0
+      ports:
+        - "9200:9200"
+        - "9300:9300"
+        - "5601:5601"
+
+networks:
+    net01:
+      driver: bridge
