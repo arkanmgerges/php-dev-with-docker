@@ -15,7 +15,7 @@ All the php-* images have zeromq installed, supervisor, xdebug, and pcntl extens
 1. Install docker on your machine, see [Docker Installation](https://docs.docker.com/engine/installation/)
 2. Install docker compose, see [Docker Compose Installation](https://docs.docker.com/compose/install/)
 3. Clone the repo 
- ```sh
+ ```
  git clone https://github.com/arkanmgerges/php-dev-with-docker.git
  cd php-dev-with-docker 
  ```
@@ -23,11 +23,11 @@ All the php-* images have zeromq installed, supervisor, xdebug, and pcntl extens
 5. Change the path in the **php-fpm** service, **volumes** option to point to the temporary directory in your machine, you can then use xdebug profiling and collect the data in this folder
 6. Open **config/nginx/site.conf** file and modify it to suit your project configuration need
 7. Issue the command from the folder where the docker-compose.yml is. This command will pull all the necessary images if you don't have them in your computer, then it will start the services in the background
- ```sh
+ ```
  docker-compose up -d
  ```
 8. Issue the command to see that php-fpm, php-ssh, web-nginx, es01, redis01 are up except php-cli and data which is ok
- ```sh
+ ```
  docker-compose ps
  ```
 
@@ -37,9 +37,12 @@ from the **Interpreter** click on the **...**, a new window will open (Interpret
 choose **Remote...**, Then Write **Remote PHP 7** in the **Name field**, click on the **SSH Credentials** and write your docker machine ip address (on windows there is a possibility that docker will be installed on the virtual box, and this virtual box will have its own ip), write in the port **1122**, write in the Username **root**, and **1234** in the Password, write **/usr/local/bin/php** in the PHP executable. Click **Ok**
 
 **Note:** To check your docker machine ip address, issue this command
-```sh
+```
 docker-machine ip
 ```
 This is how I used it on my machine which is running Windows 10 Home Edition
 
+### Profiling with Xdebug
+To start profiling your project, install the following add-on on firefox [The Easiest Xdebug](https://addons.mozilla.org/en-US/firefox/addon/the-easiest-xdebug/)
+After the installation you will have 3 icons on your firefox toolbar, click them to activate profiling. Profiling data you will see it in the path that you set in the docker-compose.yml file
 
