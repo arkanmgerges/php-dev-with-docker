@@ -8,7 +8,7 @@ RUN wget "https://download.elastic.co/kibana/kibana/kibana-4.6.1-amd64.deb" -qO 
 
 RUN /opt/kibana/bin/kibana plugin --install elastic/sense
 
-COPY ./config/elasticsearch/es-and-kibana.sh /
+COPY ./es-and-kibana.sh /
 RUN chmod a+x /es-and-kibana.sh
 
 WORKDIR /usr/share/elasticsearch
