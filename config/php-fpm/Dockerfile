@@ -29,7 +29,9 @@ RUN apt-get install -y	uuid-dev \
 RUN pecl install xdebug-2.4.1 \
     && docker-php-ext-enable xdebug
 
-RUN echo "xdebug.profiler_enable_trigger=1" >> $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini
+RUN echo "xdebug.profiler_enable_trigger=1" >> $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.remote_enable=true" >> $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.remote_autostart=1"  >> $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini
 
 ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
